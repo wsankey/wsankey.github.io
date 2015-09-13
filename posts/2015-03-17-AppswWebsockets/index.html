@@ -1,0 +1,109 @@
+<!DOCtype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Will Sankey | Data and code</title>
+   <script src="//use.typekit.net/puo2mkm.js"></script>
+	<script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <link rel=stylesheet type=text/css href="/blog/static/css/bootstrap.min.css"/>
+  	<link rel=stylesheet type=text/css href="/blog/static/css/prism.css"/>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  	  <script src="/blog/static/js/prism.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel=stylesheet type=text/css href="/blog/static/css/styles.css"/>
+    <link rel=stylesheet type=text/css href="/blog/static/css/fivepy.css"/>
+
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+  <h1><a href="/blog/">Will Sankey</a>
+  <small>
+  <span class="namegroup">
+  <ul id="namelist">
+    <li id="list"><a href="/blog/aboutwill/">[About Me, </a></li>
+    <li id="list"><a href="/blog/posts/">Blog,</a></li>
+    <li id="list"><a href="/blog/projectz/">Projects]</a></h3></li>
+  </ul>
+  </span>
+  </small>
+  </h1>
+
+
+<div class="container">
+	<div class="row">
+		<div  class="col-xs-12 card" style="margin-bottom: 4em;">
+					<a href="/blog/posts/"></a><span class="glyphicon glyphicon-hand-left"></span>
+			<h2>DC Django-district Meetup - Python Websockets</h2>
+			<p class="date">2015-03-17</p>
+			<p>The following are my notes from the March DC Django-district meetup on websockets with python, presented by Matt Makai (@mattmakai) of Twilio. Matt Makai also maintains <a href="http://www.fullstackpython.com/"><strong>Full Stack Python</strong></a>.</p>
+<p><em>Note: These notes might be incomplete.</em></p>
+<h3><a href="http://www.mattmakai.com/presentations/2015-async-web-apps-django-district.html#/">Asynchronous Python Web Apps with WebSockets</a></h3>
+<p>To summarize, the core idea for the talk was:</p>
+<p><em>If you want full communication between the browser and the server this
+is how to do it without resorting to Node.js</em></p>
+<p>The idea is to get a WSGI server to invoke the python code you've
+written. WSGI is a blocking interface, meaning that every time a request
+arrives the server will process the request and be done. In the context
+of the historical world wide web this made sense.</p>
+<h3>The old days</h3>
+<p>In the beginning, the web browser communicates with the web server. The server would
+simple return back static files and that's ok <em>if you only have static
+files.</em></p>
+<p>But if you want dynamic applications you need something more - the WSGI
+server interface. When you run a Flask or Django application the web
+server, WSGI, acts as a proxy - it runs some python and returns back
+something: HTML, JSON, etc. </p>
+<p>Around 2005 AJAX was introduced, giving us richer applications. In this
+regime we are able to retrieve data from the backend: <a href="http://en.wikipedia.org/wiki/Push_technology">Long Polling.</a> E.g. Having Facebook pdates coming in to your feed. However, this was problematic and the web community responded with:</p>
+<h3>Async</h3>
+<p>Async can keep the communication open between the client and the server.
+Before we had Long Polling with AJAX (a constant checking for updates).
+But we wanted a way of passing data between server and browser. Async
+keeps that connection open.</p>
+<p>There are differetn ways of doing this - we've usually resorted to
+Node.js but we can use python solutions, like <strong>gevent</strong></p>
+<h3>Live Coding Example</h3>
+<p><strong>See python-websockets-example from Github</strong></p>
+<p>The libraries being used:</p>
+<ul>
+<li>Flask</li>
+<li>Flask-socketio (written by person who wrote O'Reilly Flask book)</li>
+<li>Redis</li>
+</ul>
+<p>Create an empty repository, install those libraries, and then</p>
+<p>pip freeze </p>
+<p>the dependencies </p>
+<p>The python code for the older style of application:</p>
+<p>import redis
+from flask import Flask, render_template</p>
+<p>app = Flask(<strong>name</strong>)
+db = redis.StrictRedis('localhost', 6379, 0)</p>
+<p>@app.route('/')
+def main():
+  c = db.incr('user_count')
+  return render_template('main.html', counter=c)</p>
+<p>if <strong>name</strong> == "<strong>main</strong>":
+  app.run(debug=True)</p>
+<p>And then we code custom to render our python script (<em><a href="https://github.com/makaimc/python-websockets-example">from here on out
+you should refer to Matt's repository for the code, I won't copy and
+paste it.</a></em>)</p>
+<p><a href="https://github.com/makaimc/python-websockets-example/blob/master/templates/main.html">The HTML template.</a></p>
+<p>Ok, so the example works but we can improve it using Async libraries.</p>
+<h2>Let's do it with Socketio</h2>
+<p>Lot of code but essentially we submit the form as SocketIo and not HTML.</p>
+<p>The server is getting information and serving it out, but now we can use
+socketio.emit to have the server send it out to all other web browsers
+connecting.</p>
+<p>Matt is presenting at this year's <a href="https://us.pycon.org/2015/schedule/">pycon in Montreal</a> and I'll be
+sure to post his talk here when it's complete.</p>
+		</div>
+	</div>
+</div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCtype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Will Sankey | Data and code</title>
+   <script src="//use.typekit.net/puo2mkm.js"></script>
+	<script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <link rel=stylesheet type=text/css href="/blog/static/css/bootstrap.min.css"/>
+  	<link rel=stylesheet type=text/css href="/blog/static/css/prism.css"/>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  	  <script src="/blog/static/js/prism.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel=stylesheet type=text/css href="/blog/static/css/styles.css"/>
+    <link rel=stylesheet type=text/css href="/blog/static/css/fivepy.css"/>
+
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+  <h1><a href="/blog/">Will Sankey</a>
+  <small>
+  <span class="namegroup">
+  <ul id="namelist">
+    <li id="list"><a href="/blog/aboutwill/">[About Me, </a></li>
+    <li id="list"><a href="/blog/posts/">Blog,</a></li>
+    <li id="list"><a href="/blog/projectz/">Projects]</a></h3></li>
+  </ul>
+  </span>
+  </small>
+  </h1>
+
+
+<div class="container">
+	<div class="row">
+		<div  class="col-xs-12 card" style="margin-bottom: 4em;">
+					<a href="/blog/posts/"></a><span class="glyphicon glyphicon-hand-left"></span>
+			<h2>Finding top opioid prescribers in the U.S., an Open Data Science Tutorial</h2>
+			<p class="date">2015-06-01</p>
+			<p><em>Scroll to the bottom of the page if you want to get right to the python code and totals for the first CSV of data.</em> </p>
+<h3>Background and Introduction</h3>
+<p>The <strong>Centers for Medicare and Medicaid Services (CMS)</strong> recently released a <a href="http://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Part-D-Prescriber.html">massive dataset</a> on the Part D program containing
+data on drug amounts, their cost, how many beneficiaries and claims were involved
+and the <em>names</em> and locations of the physicians prescribing these medications.</p>
+<p>In the spirit of the open data movement, and in time for the <a href="http://healthdatapalooza.org/">2015 Health Data Palooza conference</a>, this tutorial series proposes to total and visualize these data. The <a href="https://github.com/wsankey/PartDAnalysis">code</a> will be made available for anyone to download and modify. This tutorial uses <em>free</em> open source software so you can replicate these findings even if you are using your wife's old macbook air over the weekend. </p>
+<h4>Open Data Science with Python</h4>
+<p>This tutorial uses Python and eventually Javascript. I will be going through this using a standard text editor and the resources available via the Mac terminal. I am using Python 2.7 along with the Pandas module (all free). If you have a PC you can follow along but the screens below will look different and the steps needed to get this running may take some effort to configure. </p>
+<p><strong>Note: These tutorials may be a struggle to someone new to Python, Javascript, and the web world generally. Proceed with caution, and see other
+resources for more help.</strong></p>
+<h3>Results first</h3>
+<p>By the end of this tutorial you'll be able to query the top N prescribers of opioids in 2013. Below I've pulled the top 5 by total drug cost (right screen0) from the first CSV, my code is on the left:
+<img class="parent" src="/blog/static/media/top5_prescribers.png">
+<em>Bigger screenshots are provided below</em></p>
+<h3>Find, download and explore the data</h3>
+<p>For this first tutorial we'll total drug costs for one of the CSVs. Later we'll download and perform this operation over <em>all</em> the CSVs. Download the first workbook (Aa to AI) open and save it as a CSV. There are some ways to automate this using Python--and in the futre we'll attempt a script that completes this for us. </p>
+<h4>Understanding what we have</h4>
+<p>Let's take a breather, back up, and try and understand what we are looking at. After saving the data in our folder we can start writing some python scripts to look and manipulate it. </p>
+<p>In our python code we import the Pandas module and use it to look at the first ten observations. 
+<pre><code class="language-python">
+import pandas as pd</p>
+<h1>Let's read in the CSV and retain the columns we're interested in.</h1>
+<p>df = pd.read_csv("PartD_Prescriber_PUF_NPI_DRUG_Aa_AL_CY2013.csv", nrows=100)
+print df.head(10)
+</code></pre>In running this code we'll be able to get a sense of this dataset, the variable names and what we'll need to do to transform it into something we can use. </p>
+<p>From this investigation we find some key variables: the prescriber's NPI (a unique identifier), their first and last name along with their city and state, the drug's total cost, and the name of the generic drugs. </p>
+<h4>What drugs should we investigate. What are opioids?</h4>
+<p>We need a list of the generic drugs of interest. After some simple internet sleuthing we find this <a href="http://www.fda.gov/Drugs/DrugSafety/InformationbyDrugClass/ucm251735.htm">list of opioid generics from the FDA.</a> The opioid generics identified in this list include Fentanyl, Methadone Hydrochloride (HCL), Morphine Sulfate, and Oxymorphone HCL. </p>
+<h3>Finding totals by provider</h3>
+<p>In the interest of time I've provided below the final form of the code. Essentially, after reading our CSV into the Pandas module we identify the opioid generics of interest, we clean the total drug cost variable, and then we sum by the unique provider identifier (NPI). Once we have those totals we write that information to the 'top_prescribers_in_first_file' CSV. I've commented out the code below to offer some insight into what's happening at each step and please let me know in the comments if you'd like more information on anything going on below.
+<pre><code class="language-python">
+import pandas as pd</p>
+<h1>Let's read in the CSV and retain the columns we're interested in.</h1>
+<p>df = pd.read_csv("PartD_Prescriber_PUF_NPI_DRUG_Aa_AL_CY2013.csv")</p>
+<p>df = df[['npi', 'total_drug_cost', 'nppes_provider_last_org_name', 'nppes_provider_first_name', 'nppes_provider_city', 'nppes_provider_state', 'generic_name']]</p>
+<h1>We identify the following generics as opioids.</h1>
+<p>def opiods(series):
+    if series["generic_name"]=="FENTANYL":
+        return 1
+    elif series["generic_name"]=="METHADONE HCL":
+        return 1
+    elif series["generic_name"]=="MORPHINE SULFATE":
+        return 1
+    elif series["generic_name"]=="OXYMORPHONE HCL":
+        return 1
+    else:
+        return 0</p>
+<h1>The opioids function is applied and the opioids retained.</h1>
+<p>df['opioid_var'] = df.apply(opiods, axis=1)
+df = df.loc[(df.opioid_var==True)]</p>
+<h1>Our total drug cost column is messy and needs cleaning.</h1>
+<p>df['total_drug_cost'] = df['total_drug_cost'].fillna(0)
+df['total_drug_cost'] = df['total_drug_cost'].str.strip("$")
+df['total_drug_cost'] = df['total_drug_cost'].str.replace(',','')
+df['total_drug_cost'] = df['total_drug_cost'].astype(float)</p>
+<h1>Group and sum by provider NPI, sort the summed column in descending order and send our dataset to a CSV file.</h1>
+<p>df['tot'] = df['total_drug_cost'].groupby(df['npi']).transform('sum')
+df = df.drop_duplicates(cols='npi')</p>
+<p>top100 = df.sort('tot', ascending=False)[:100]
+top100 = top100[['npi', 'tot', 'nppes_provider_last_org_name', 'nppes_provider_first_name', 'nppes_provider_city', 'nppes_provider_state']]</p>
+<p>top100.to_csv('top_prescribers_in_first_file.csv')</p>
+<p></code></pre></p>
+<h3>Results</h3>
+<p>The output CSV returns the top 100 prescribers of opioids by total drug cost in 2013. We find the very top prescriber in this dataset prescriber $798,501 worth of opioids and the top 20 prescribers in this first file prescribed over $100,000 worth of opioids.</p>
+<p><img class="parent" src="/blog/static/media/top100excel.png"></p>
+<p><em>Important note: There many be important factors about a prescriber's population (e.g. having more patients with cancer or in hospice) that are behind these totals. This basic analysis does not speak to any of those particular factors.</em> </p>
+<h3>Next steps</h3>
+<p>Ok, we've done this for one of our worksheets but we have more to do. The next tutorial will show you how to loop through the CSVs we have and save the top 100 prescribers from each. From there we'll use the mindset of the <a href="http://en.wikipedia.org/wiki/Merge_sort">mergesort alogrithmn</a> to find
+the top 100 prescribers of opioids in the country. Finally, in the last tutorial we'll take this data and visualize their totals. </p>
+<p>Stay tuned.</p>
+		</div>
+	</div>
+</div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

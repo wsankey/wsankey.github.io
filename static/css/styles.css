@@ -1,0 +1,77 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  font-family: "chaparral-pro";
+  font-size: 19px;
+}
+
+h1 a {
+  font-family: "aktiv-grotesk" !important;
+  font-size: 36px;
+}
+
+body {
+	 background: #efeff3;
+}
+
+a {
+	color: #105B63;
+}
+.brandcolor {
+	color: #BD4932
+}
+
+.parent {
+  width: 100%;
+  border: 2px solid #E18728;
+}
+ .card {
+ 	background: #fff;
+ 	  box-shadow: 0 2px 4px rgba(100,100,100,.1);
+ 	  padding: 30px;
+ }
+
+  .card h2 {
+	color:#BD4932;
+  	text-decoration:none;
+ }
+
+ .card .date {
+  color:#9e9e9e;
+  margin-top:10px;
+  font-size:14px;
+}
+
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  display: inline;
+}
+
+a {
+  color: #105B63;
+}
+.brandcolor {
+  color: #BD4932
+}
+
+#namelist a {
+  font-size: 14px !important;
+  font-weight: 200;
+  margin-left: 0;
+}
+
+ul#namelist {
+    padding: 0 0 0 0 !important;
+}
+
+h1 .namegroup a { display: inline-block; 
+  margin-left: 0;
+  padding-left: 0;
+}
+
+#milesaway {
+  background-image: url('../media/billnwill2.jpg');
+}
