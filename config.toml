@@ -1,0 +1,4 @@
+baseURL = "http://willsankey.com/"
+languageCode = "en-us"
+title = "Will Sankey"
+theme = "hugo-theme-cactus"
