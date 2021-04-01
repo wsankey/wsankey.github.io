@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://willsankey.com/posts/my-first-post/</loc>
+    <loc>https://willsankey.com/posts/my-first-post/</loc>
     <lastmod>2021-03-31T23:08:24-04:00</lastmod>
   </url><url>
-    <loc>http://willsankey.com/posts/</loc>
+    <loc>https://willsankey.com/posts/</loc>
     <lastmod>2021-03-31T23:08:24-04:00</lastmod>
   </url><url>
-    <loc>http://willsankey.com/</loc>
+    <loc>https://willsankey.com/</loc>
     <lastmod>2021-03-31T23:08:24-04:00</lastmod>
   </url><url>
-    <loc>http://willsankey.com/categories/</loc>
+    <loc>https://willsankey.com/categories/</loc>
   </url><url>
-    <loc>http://willsankey.com/tags/</loc>
+    <loc>https://willsankey.com/tags/</loc>
   </url>
 </urlset>
